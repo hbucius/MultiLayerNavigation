@@ -1,0 +1,22 @@
+//
+// Prefix header for all source files of the 'MultiLayerNavigation' target in the 'MultiLayerNavigation' project
+//
+
+//#ifdef TEST
+#define DDLOG(xx, ...)  NSLog(@"打印: %s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+//#elif RELEASE
+//#define GJNSLog(xx, ...)  NSLog(@"打印: %s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+//#else
+//#define GJNSLog(xx, ...)  ((void)0)
+//#endif
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
