@@ -27,7 +27,7 @@
 @property (nonatomic, retain) UIImageView *popLastScreenShotView;
 @property (nonatomic, retain) UIImageView *nowImageView;
 
-@property (nonatomic,assign) BOOL isMoving;
+@property (nonatomic, assign) BOOL isMoving;
 
 @end
 
@@ -41,6 +41,7 @@
         
         self.screenShotsList = [[[NSMutableArray alloc]initWithCapacity:2]autorelease];
         self.canDragBack = YES;
+        self.returnHasAnimation = YES;
         
     }
     return self;
@@ -101,21 +102,25 @@
 // override the pop method
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
+    if (self.returnHasAnimation) {
+        [self popAnimation];
+    }
     [self.screenShotsList removeLastObject];
     
     return [super popViewControllerAnimated:animated];
 }
 
-- (void) leftButtonPopViewController {
-        [self popAnimation];
+- (void)gestureAnimation:(BOOL)animated {
+    [self.screenShotsList removeLastObject];
+    [super popViewControllerAnimated:animated];
 }
 
 - (void) popAnimation {
     /*
-        1.拿到当前的view，做消失动画
-        2.拿到数组的最后一个image做显示动画
-        3.最底层是黑色背景(popBackView)---数组最后的image(popLastScreenShotView)---半透明的蒙层(popBlackMask)---当前的view(nowImageView)
-    */
+     1.拿到当前的view，做消失动画
+     2.拿到数组的最后一个image做显示动画
+     3.最底层是黑色背景(popBackView)---数组最后的image(popLastScreenShotView)---半透明的蒙层(popBlackMask)---当前的view(nowImageView)
+     */
     @try {
         UIImage *nowImage = [self capture];
         CGRect frame = self.view.frame;
@@ -155,7 +160,6 @@
             self.popLastScreenShotView.transform = CGAffineTransformMakeScale(1.0,1.0);
         } completion:^(BOOL finished) {
             self.popBackView.hidden = YES;
-            [self popViewControllerAnimated:NO];
         }];
     }
     @catch (NSException *exception) {}
@@ -190,7 +194,7 @@
     
     float scale = (x/6400)+0.95;
     float alpha = 0.4 - (x/800);
-
+    
     lastScreenShotView.transform = CGAffineTransformMakeScale(scale, scale);
     blackMask.alpha = alpha;
     
@@ -241,7 +245,7 @@
                 [self moveViewWithX:320];
             } completion:^(BOOL finished) {
                 
-                [self popViewControllerAnimated:NO];
+                [self gestureAnimation:NO];
                 CGRect frame = self.view.frame;
                 frame.origin.x = 0;
                 self.view.frame = frame;

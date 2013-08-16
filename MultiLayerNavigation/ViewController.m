@@ -33,15 +33,15 @@
     [button addTarget:self action:@selector(pressBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     
-
-    UIBarButtonItem* backButton = [[[UIBarButtonItem alloc] initWithTitle:@"返回"
-																	style:UIBarButtonItemStyleBordered
-																   target:self
-																   action:@selector(popFront:)] autorelease];
-	
-    if (self.navigationController.viewControllers.count > 1) {
-        self.navigationItem.leftBarButtonItem = backButton;
-    }
+    
+//    UIBarButtonItem* backButton = [[[UIBarButtonItem alloc] initWithTitle:@"返回"
+//																	style:UIBarButtonItemStyleBordered
+//																   target:self
+//																   action:@selector(popFront:)] autorelease];
+//	
+//    if (self.navigationController.viewControllers.count > 1) {
+//        self.navigationItem.leftBarButtonItem = backButton;
+//    }
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = [NSString stringWithFormat:@"No.%d Page",self.navigationController.viewControllers.count];
@@ -50,7 +50,7 @@
     textView.font = [UIFont systemFontOfSize:12];
     textView.text = @"MultiLayerNavigation helps you implemntation the interaction -- 'drag to back' in a easy way.\n The only one thing you need to do is replacing your UINavigationController with the MLNavigation Controller or inherit it.";
     textView.numberOfLines = 0;
-
+    
     
     UIScrollView *scrollView = [[[UIScrollView alloc]initWithFrame:CGRectMake(0,300,320,140)]autorelease];
     scrollView.contentSize = CGSizeMake(320, 200);
@@ -58,15 +58,19 @@
     [scrollView addSubview:textView];
     [self.view addSubview:scrollView];
     
-//    UITableView *tableView = [[[UITableView alloc]initWithFrame:CGRectMake(0, 300, 320, 140)]autorelease];
-//    tableView.delegate = self;
-//    tableView.dataSource = self;
-//    [self.view addSubview:tableView];
+    //    UITableView *tableView = [[[UITableView alloc]initWithFrame:CGRectMake(0, 300, 320, 140)]autorelease];
+    //    tableView.delegate = self;
+    //    tableView.dataSource = self;
+    //    [self.view addSubview:tableView];
     
 }
 
 - (void) popFront:(id)sender {
-    [(MLNavigationController *)self.navigationController leftButtonPopViewController];
+    /*
+     This param tell the navitation transation has animation or not! Default is YES!
+     */
+    //    ((MLNavigationController *)self.navigationController).returnHasAnimation = NO;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning
