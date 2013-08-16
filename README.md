@@ -9,10 +9,9 @@ now I made some modify to this project , you do not need to call the method prev
   
   - (void) popFront:(id)sender {
     
-      /*
-        This param tell the navitation transation has animation or not! Default is YES!
-     */
-   ((MLNavigationController *)self.navigationController).returnHasAnimation = NO;
+    /*This param tell the navitation transation has animation or not! Default is YES!*/
+   
+    ((MLNavigationController *)self.navigationController).returnHasAnimation = NO;
 
     [self.navigationController popViewControllerAnimated:YES];
    
